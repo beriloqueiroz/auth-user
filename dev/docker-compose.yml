@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  auth:
+      image: beriloqueiroz/auth-user:latest
+      build: 
+        context: ../auth-user
+        dockerfile: "Dockerfile"
+      restart: always
+      container_name: auth-user
+      environment:
+        "SymmetricSecurityKey": ${SSK_AUTH}
+        "ConnectionStrings:UserConnection": ${DB_AUTH}
+        "SendGridKey": ${SEND_GRID_AUTH}
+        "UrlBase": "${URL_SITE}"
+        "UrlConfirmUser": ${URL_CONFIRM_USER}
+        DOTNET_EnableDiagnostics: 0
+        ASPNETCORE_URLS: "${URL_BASE}:5000"
+      ports:
+        - "5000:80"
+      network_mode: "host"
+
+  db:
+    image: postgres
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_PASSWORD: teste
+      POSTGRES_DB: user_db
+      POSTGRES_USER: teste
+    volumes:
+      - ./postgres_data:/var/lib/postgres
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8088:8088
+
+volumes:
+  postgres_data:
