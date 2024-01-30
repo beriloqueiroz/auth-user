@@ -1,4 +1,4 @@
-# Projeto de serviço de autenticação e autorização de usuários
+# Projeto de serviço de autenticação e autorização de usuários using .NET 7
 
 - O objetivo é: uma API rest, com endpoints:
   - Login
